@@ -1,66 +1,16 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Route, NavLink } from "react-router-dom";
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
+import NavDropdown from 'react-bootstrap/NavDropdown';
+import Container from 'react-bootstrap/Container';
 import axios from "axios";
-import "bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css"
 
 import Home from "./home.jsx";
 import Subject from "./subject.jsx";
 
-import "bootstrap/dist/css/bootstrap.min.css";
-
-
-function Link(props) {
-  return (
-    <NavLink className="dropdown-item link" to={props.to}>
-      {props.header}
-    </NavLink>
-  );
-}
-
-function Dropdown(props) {
-  return (
-    <ul className="navbar-nav ">
-      <li className="nav-item dropdown">
-        <a
-          className="nav-link dropdown-toggle"
-          href="#"
-          id="navbarDropdown"
-          role="button"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
-        >
-          {props.title}
-        </a>
-        <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-          {props.children}
-        </div>
-      </li>
-    </ul>
-  );
-}
-
-function Divider() {
-  return (<div className="dropdown-divider"></div>);
-}
-
-function Navbar(props) {
-  return (<nav className="navbar navbar-expand-lg navbar-light bg-light">
-    <NavLink className="navbar-brand" to="/">
-     Spaced Repetition Cheat Sheet 
-    </NavLink>
-    <Dropdown title="Subjects">
-      {props.subjects.map(subject => { 
-        return (<Link
-          to={subject.token}
-          header={subject.name}
-          key={subject.token}
-        />);
-      })}
-    </Dropdown>
-  </nav>);
-}
 
 class Main extends Component {
   constructor(props) {
@@ -85,8 +35,23 @@ class Main extends Component {
   render() {
     return (<BrowserRouter>
       <div>
-        <Navbar subjects={this.state.subjects} />
-        <div style={{ maxWidth: 1140 }} className="container-fluid">
+        <Navbar bg="light" expand="lg">
+          <Navbar.Brand href="/">Spaced-Repetition Cheat Sheet</Navbar.Brand>
+          <Nav className="mr-auto">
+            <NavDropdown title="Subject">
+              {this.state.subjects.map(subject => { 
+                return (<NavDropdown.Item
+                  as={NavLink}
+                  key={subject.token}
+                  to={subject.token}
+                >
+                  {subject.name}
+                </NavDropdown.Item>);
+              })}
+            </NavDropdown>
+          </Nav>
+        </Navbar>
+        <Container>
           <Route exact path="/" component={Home} />
           {this.state.subjects.map(subject => {
             return (<Route
@@ -95,7 +60,7 @@ class Main extends Component {
               render={props => <Subject title={subject.name} />}
             />);
           })}
-        </div>
+        </Container>
       </div>
     </BrowserRouter>);
   }

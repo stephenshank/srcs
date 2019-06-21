@@ -7,9 +7,8 @@
     "axios": "^0.18.0",
     "bootstrap": "4",
     "express": "^4.16.4",
-    "jquery": "3",
-    "popper.js": "^1.14.6",
     "react": "^16.7.0",
+    "react-bootstrap": "1.0.0-beta.9",
     "react-dom": "^16.7.0",
     "react-router-dom": "^4.3.1"
   },
