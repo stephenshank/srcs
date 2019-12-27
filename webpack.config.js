@@ -1,23 +1,35 @@
 const path = require('path'),
-  HtmlWebpackPlugin = require('html-webpack-plugin');
+  HtmlWebpackPlugin = require('html-webpack-plugin'),
+  MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-  entry: path.resolve(__dirname, 'frontend', 'main.jsx'),
+  entry: path.resolve(__dirname, 'frontend', 'app.jsx'),
   plugins: [
     new HtmlWebpackPlugin({
       title: "Spaced Repetition Cheat Sheet"
-    })
+    }),
+    new MiniCssExtractPlugin()
   ],
   module: {
     rules: [
       {
         test: /\.jsx$/,
         exclude: /node_modules/,
-        loader: "babel-loader"
+        loader: "babel-loader",
+        query: {
+          presets: ['@babel/react']
+        }
       },
       {
-        test: /\.css$/,
-        use: ["style-loader", "css-loader"]
+        test: /\.(sa|sc|c)ss$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+          },
+          "css-loader",
+          "postcss-loader",
+          "sass-loader",
+        ],
       }
     ]
   },
@@ -26,7 +38,8 @@ module.exports = {
     disableHostCheck: true,
     historyApiFallback: true,
     proxy: {
-      '/api': 'http://localhost:8001'
+      '/api': 'http://localhost:8001',
+      changeOrigin: true
     }
   }
 }

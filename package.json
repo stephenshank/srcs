@@ -4,6 +4,10 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.26",
+    "@fortawesome/free-brands-svg-icons": "^5.12.0",
+    "@fortawesome/free-solid-svg-icons": "^5.12.0",
+    "@fortawesome/react-fontawesome": "^0.1.8",
     "axios": "^0.18.0",
     "bootstrap": "4",
     "express": "^4.16.4",
@@ -19,7 +23,14 @@
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.4",
     "css-loader": "^2.1.0",
+    "cssnano": "^4.1.10",
     "html-webpack-plugin": "^3.2.0",
+    "mini-css-extract-plugin": "^0.8.0",
+    "node-sass": "^4.13.0",
+    "postcss-import": "^12.0.1",
+    "postcss-loader": "^3.0.0",
+    "postcss-preset-env": "^6.7.0",
+    "sass-loader": "^8.0.0",
     "style-loader": "^0.23.1",
     "supervisor": "^0.12.0",
     "webpack": "^4.28.2",
@@ -27,15 +38,7 @@
     "webpack-dev-server": "^3.1.13"
   },
   "scripts": {
-    "frontend": "npx webpack-dev-server --mode=development --open"
-  },
-  "babel": {
-    "presets": [
-      "@babel/preset-env",
-      "@babel/preset-react"
-    ],
-    "plugins": [
-      "@babel/plugin-proposal-class-properties"
-    ]
+    "frontend": "npx webpack-dev-server --mode=development --open",
+    "api": "python api/manage.py runserver 8001"
   }
 }
