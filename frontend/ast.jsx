@@ -52,8 +52,9 @@ function cleanPythonNode(node, clean) {
 function AST() {
   const [text, setText] = useState('');
   const [clean, setClean] = useState(true);
-  const [language, setLanguage] = useState('python');
+  const [language, setLanguage] = useState('javascript');
   const [ast, setAst] = useState({});
+  const [expand, setExpand] = useState(1);
 
   const onJSTextChange = e => {
       const new_text = e.target.value;
@@ -82,14 +83,15 @@ function AST() {
     onTextChange = is_javascript ? onJSTextChange : onPythonTextChange,
     onCleanChange = is_javascript ? onJSCleanChange : onPythonCleanChange;
   return (<div id="srcs-ast">
-    <span>
+
+    <span style={{display: "flex", alignItems: "center", marginBottom: 20}}>
+      <label className="toolbar-label">Clean</label>
       <input type="checkbox"
         checked={clean}
         onChange={onCleanChange}
       />
-      Clean
-      <span style={{marginLeft: 20}}>
-        <label>Language</label>
+      <span className="toolbar-item">
+        <label className="toolbar-label">Language</label>
         <select
           style={{width: 200, marginLeft: 5}}
           value={language}
@@ -104,13 +106,25 @@ function AST() {
         </select>
       </span>
 
+      <span className="toolbar-item">
+        <label className="toolbar-label">Expand</label>
+        <input
+          type="number"
+          min="1"
+          value={expand}
+          style={{width: 50}}
+          onChange={e => setExpand(e.target.value)}
+        />
+      </span>
+
       {language == 'python' ? (<button
-        style={{marginLeft: 20}}
+        className="toolbar-item"
         onClick={fetchPythonAST}
       >
         Parse AST
       </button>) : null } 
     </span>
+
     <textarea
       rows={5}
       cols={100}
@@ -120,11 +134,15 @@ function AST() {
     <SyntaxHighlighter language={language} style={docco}>
       {text}
     </SyntaxHighlighter>
-    <ReactJson
-      src={ast}
-      collapsed={1}
-      displayDataTypes={false}
-    />
+
+    <div style={{ height: 550, overflowY: "scroll" }}>
+      <ReactJson
+        src={ast}
+        collapsed={1}
+        displayDataTypes={false}
+        collapsed={expand}
+      />
+    </div>
   </div>);
 }
 
