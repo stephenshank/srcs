@@ -24,10 +24,15 @@ function cleanJSNode(node) {
 
 function safeCleanJSParse(text, clean) {
   try {
-    const ast = parse(text, { sourceType: "module" });
+    const options = {
+      sourceType: "module",
+      plugins: [ "jsx" ]
+    };
+    const ast = parse(text, options);
     return clean ? cleanJSNode(ast.program.body) : ast.program.body;
   }
   catch(error) {
+    console.log(error);
     const safe = {"status": "syntax error!"}
     return safe;
   }
