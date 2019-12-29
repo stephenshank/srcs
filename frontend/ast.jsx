@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Button from 'react-bootstrap/Button';
 import { parse } from '@babel/parser';
 import ReactJson from 'react-json-view'
 import SyntaxHighlighter from 'react-syntax-highlighter';
@@ -122,12 +123,12 @@ function AST() {
         />
       </span>
 
-      {language == 'python' ? (<button
+      {language == 'python' ? (<Button
         className="toolbar-item"
         onClick={fetchPythonAST}
       >
         Parse AST
-      </button>) : null } 
+      </Button>) : null }
     </span>
 
     <textarea

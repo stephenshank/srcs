@@ -19,13 +19,18 @@ import "./styles/main.scss";
 const Icons = Object.assign({}, solidIcons, brandIcons);
 
 function Link(props) {
+  function isActive(match, location) {
+    return location.pathname.split("/")[1] == props.to.split("/")[1];
+  }
+
   return (
     <li className="nav-item">
       <NavLink
         to={props.to}
         className="nav-link"
         activeClassName="active"
-        exact
+        isActive={isActive}
+        exact={props.to == "/"}
       >
         <FontAwesomeIcon key={1} icon={Icons[props.icon]} className="srcs-fa" />
         {props.label}
@@ -81,7 +86,7 @@ function Main(props) {
                     return (
                       <Link
                         key={subject.token}
-                        to={"/" + subject.token}
+                        to={`/${subject.token}/scripts`}
                         label={subject.name}
                         icon={subject.icon}
                       />
@@ -96,15 +101,7 @@ function Main(props) {
             >
               <Route exact path="/" component={Home} />
               <Route path="/ast" component={AST} />
-              {subjects.map(subject => {
-                return (
-                  <Route
-                    path={"/" + subject.token}
-                    key={subject.token}
-                    render={props => <Subject title={subject.name} />}
-                  />
-                );
-              })}
+              <Route path={"/:subject"} component={Subject} />
             </main>
           </div>
         </div>

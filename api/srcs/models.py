@@ -38,17 +38,21 @@ class Script(models.Model):
     script_file = models.FileField(upload_to='api/uploads/')
 
     def __str__(self):
-        return self.name
+        return self.name + " (" + str(self.subject) + ")"
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         code = self.script_file.read()
         tree = ast.parse(code)
         for node in tree.body:
-            is_import = isinstance(node, ast.ImportFrom)
-            if not is_import:
+            is_import_from = isinstance(node, ast.ImportFrom)
+            is_import = isinstance(node, ast.Import)
+            if is_import_from:
+                name = node.module
+            elif is_import:
+                name = node.names[0].name
+            else:
                 continue
-            name = node.module
             exists = Module.objects.filter(name=name).count() > 0
             should_create = is_import and not exists
             if should_create:

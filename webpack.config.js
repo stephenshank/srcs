@@ -4,6 +4,9 @@ const path = require('path'),
 
 module.exports = {
   entry: path.resolve(__dirname, 'frontend', 'app.jsx'),
+  output: {
+    publicPath: "/"
+  },
   plugins: [
     new HtmlWebpackPlugin({
       title: "Spaced Repetition Cheat Sheet"
@@ -37,6 +40,7 @@ module.exports = {
   devServer: {
     disableHostCheck: true,
     historyApiFallback: true,
+    contentBase: path.resolve(__dirname, "dist"),
     proxy: {
       '/api': 'http://localhost:8001',
       changeOrigin: true
