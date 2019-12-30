@@ -1,4 +1,6 @@
+import json
 import os
+import subprocess
 
 import ast
 from django.db import models
@@ -24,37 +26,72 @@ class Package(models.Model):
 
 
 class Module(models.Model):
+    languages = (
+        ('python', 'Python'),
+        ('javascript', 'JavaScript')
+    )
     package = models.ForeignKey('Package', on_delete=models.CASCADE, null=True)
     name = models.CharField(null=True, max_length=255)
+    language = models.CharField(
+        choices=languages, null=True, max_length=16, editable=False
+    )
 
     def __str__(self):
         return self.name
 
 
 class Script(models.Model):
+    languages = (
+        ('python', 'Python'),
+        ('javascript', 'JavaScript')
+    )
     subject = models.ForeignKey('Subject', on_delete=models.CASCADE)
     name = models.CharField(null=True, max_length=255, blank=True)
     token = models.CharField(null=True, max_length=255, blank=True)
+    language = models.CharField(
+        choices=languages, null=True, max_length=16, editable=False
+    )
     script_file = models.FileField(upload_to='api/uploads/')
 
     def __str__(self):
         return self.name + " (" + str(self.subject) + ")"
 
     def save(self, *args, **kwargs):
+        extension = self.script_file.name.split('.')[-1]
+        if extension == 'py':
+            language = 'python'
+        else:
+            language = 'javascript'
+        self.language = language
         super().save(*args, **kwargs)
-        code = self.script_file.read()
-        tree = ast.parse(code)
-        for node in tree.body:
-            is_import_from = isinstance(node, ast.ImportFrom)
-            is_import = isinstance(node, ast.Import)
-            if is_import_from:
-                name = node.module
-            elif is_import:
-                name = node.names[0].name
-            else:
-                continue
-            exists = Module.objects.filter(name=name).count() > 0
-            should_create = is_import and not exists
-            if should_create:
-                new_module = Module.objects.create(name=name)
-                new_module.save()
+        if language == 'python':
+            code = self.script_file.read()
+            tree = ast.parse(code)
+            for node in tree.body:
+                is_import_from = isinstance(node, ast.ImportFrom)
+                is_import = isinstance(node, ast.Import)
+                if is_import_from:
+                    name = node.module
+                elif is_import:
+                    name = node.names[0].name
+                else:
+                    continue
+                exists = Module.objects.filter(name=name).count() > 0
+                should_create = is_import and not exists
+                if should_create:
+                    new_module = Module.objects.create(
+                        name=name, language=language
+                    )
+                    new_module.save()
+        else:
+            json_string = subprocess.check_output([
+                'node', 'api/js_ast.js', self.script_file.name
+            ]).decode('utf-8')
+            imports = json.loads(json_string)
+            for name in imports:
+                exists = Module.objects.filter(name=name).count() > 0
+                if not exists:
+                    new_module = Module.objects.create(
+                        name=name, language=language
+                    )
+                    new_module.save()

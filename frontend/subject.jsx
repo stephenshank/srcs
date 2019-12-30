@@ -13,6 +13,7 @@ function Scripts(props) {
   const [scripts, setScripts] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [text, setText] = useState('');
+  const [language, setLanguage] = useState('');
   useEffect(() => {
     axios
       .get("/api/scripts", {
@@ -45,6 +46,7 @@ function Scripts(props) {
                 }).then(response => {
                   setText(response.data.text);
                   setShowModal(true);
+                  setLanguage(script.language)
                 })
                 .catch(error => {
                   console.log(error);
@@ -62,7 +64,7 @@ function Scripts(props) {
 
       <Modal.Body>
         <div style={{height:600, overflowY: "scroll"}}>
-          <SyntaxHighlighter language={'python'} style={docco}>
+          <SyntaxHighlighter language={language} style={docco}>
             {text}
           </SyntaxHighlighter>
         </div>
