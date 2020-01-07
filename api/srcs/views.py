@@ -10,6 +10,9 @@ from ast2json import ast2json
 
 from .models import Subject
 from .models import Script
+from .models import CheatSheet
+from .models import SheetSection
+from .models import SectionItem
 
 
 def clean_object(instance):
@@ -54,3 +57,33 @@ def script(request):
     script = Script.objects.get(id=script_id)
     text = script.script_file.read().decode('utf-8')
     return JsonResponse({'text': text})
+
+
+def sheets(request):
+    token = request.GET.get('subject', '')
+    subject = Subject.objects.get(token=token)
+    sheet_queryset = CheatSheet.objects.filter(subject=subject)
+    response_data = serializer(sheet_queryset)
+    return JsonResponse(response_data, safe=False)
+
+
+def sheet(request):
+    token = request.GET.get('token', '')
+    sheet = CheatSheet.objects.get(token=token)
+    sections = SheetSection.objects.filter(cheatsheet=sheet)
+    response_data = {
+        "name": sheet.name,
+        "description": sheet.description,
+        "sections": [
+            {   
+                "name": section.name,
+                "items": [
+                    model_to_dict(item)
+                    for item
+                    in SectionItem.objects.filter(section=section)
+                ]
+            }
+            for section in sections
+        ]
+    }
+    return JsonResponse(response_data, safe=False)

@@ -9,4 +9,6 @@ urlpatterns = [
     path('python_ast', views.python_ast, name='python_ast'),
     path('scripts', views.scripts, name='scripts'),
     path('script', views.script, name='script'),
+    path('sheets', views.sheets, name='sheets'),
+    path('sheet', views.sheet, name='sheet'),
 ]

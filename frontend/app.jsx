@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Component } from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter, Route, NavLink } from "react-router-dom";
+import { BrowserRouter, Route, NavLink, Switch } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
@@ -86,7 +86,7 @@ function Main(props) {
                     return (
                       <Link
                         key={subject.token}
-                        to={`/${subject.token}/scripts`}
+                        to={`/${subject.token}/sheets`}
                         label={subject.name}
                         icon={subject.icon}
                       />
@@ -99,9 +99,17 @@ function Main(props) {
               role="main"
               className="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4"
             >
-              <Route exact path="/" component={Home} />
-              <Route path="/ast" component={AST} />
-              <Route path={"/:subject"} component={Subject} />
+              <Switch>
+                <Route path="/ast">
+                  <AST />
+                </Route>
+                <Route path={"/:subject"}>
+                  <Subject />
+                </Route>
+                <Route path="/">
+                  <Home />
+                </Route>
+              </Switch>
             </main>
           </div>
         </div>
