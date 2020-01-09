@@ -122,3 +122,11 @@ class SectionItem(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class SpacedRepetitionItem(models.Model):
+    datetime = models.DateTimeField(auto_now_add=True)
+    item = models.ForeignKey('SectionItem', on_delete=models.DO_NOTHING)
+
+    def __str__(self):
+        return self.item.name

@@ -1,4 +1,5 @@
 import json
+from random import randint
 
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
@@ -13,6 +14,7 @@ from .models import Script
 from .models import CheatSheet
 from .models import SheetSection
 from .models import SectionItem
+from .models import SpacedRepetitionItem 
 
 
 def clean_object(instance):
@@ -86,4 +88,29 @@ def sheet(request):
             for section in sections
         ]
     }
+    return JsonResponse(response_data, safe=False)
+
+
+def add_sr_item(request):
+    section_item_id = request.GET.get('id', None)
+    section_item = SectionItem.objects.filter(id=section_item_id)[0]
+    sr_item = SpacedRepetitionItem.objects.create(item=section_item)
+    sr_item.save()
+    return JsonResponse({'status': 'okay'})
+
+
+def sr_item(request):
+    action = request.GET.get('action', None)
+    print('ACTION', action)
+    if action == 'remove':
+        sr_id = request.GET.get('id', None)
+        SpacedRepetitionItem.objects.filter(id=sr_id).delete()
+    count = SpacedRepetitionItem.objects.count()
+    index = randint(0, count-1)
+    section_item_id = SpacedRepetitionItem.objects.all()[index].id
+    section_item = SectionItem.objects.filter(id=section_item_id)[0]
+    response_data = model_to_dict(section_item)
+    section = section_item.section
+    response_data['section'] = model_to_dict(section)
+    response_data['sheet'] = model_to_dict(section.cheatsheet)
     return JsonResponse(response_data, safe=False)

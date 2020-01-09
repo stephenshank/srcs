@@ -147,6 +147,7 @@ function Sheet(props) {
             <tr>
               <th>Shortcut</th>
               <th>Description</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -154,6 +155,17 @@ function Sheet(props) {
               return (<tr key={i}>
                 <td>{item.shortcut}</td>
                 <td>{item.name}</td>
+                <td>
+                  <Button
+                    variant="primary"
+                    onClick={() => {
+                    axios.get('/api/add_sr_item', {params: {id: item.id}})
+                      .catch(error => console.log(error));
+                    }}
+                  >
+                    Flag
+                  </Button>
+                </td>
               </tr>);
             })}
           </tbody>
