@@ -6,10 +6,17 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Table from "react-bootstrap/Table";
-import Button from "react-bootstrap/Button";
+import { default as RBButton } from "react-bootstrap/Button";
 import Nav from "react-bootstrap/Nav";
 import Modal from "react-bootstrap/Modal";
 import axios from "axios";
+
+
+function Button(props) {
+  return (<RBButton variant="outline-primary" {...props}>
+    {props.children}
+  </RBButton>)
+}
 
 
 function Scripts(props) {
@@ -135,14 +142,34 @@ function Sheet(props) {
   return (<Container>
     <Row>
       <Col md={12} style={header_style}>
-        <h1>{sheet.name}</h1>
+        <h2>{sheet.name}</h2>
+        <div>
+          <Button
+            style={{marginRight: 20}}
+            onClick={() => {
+              axios.get('/api/flag_cheatsheet', {params: {id: sheet.id}})
+                .catch(error => console.log(error));
+            }}
+          >
+            Flag sheet
+          </Button>
           <Link to={`/${subject}/sheets`}>Back to all sheets</Link>
+        </div>
       </Col>
     </Row>
     <Row>
       {sheet.sections.map(section => (<Col md={6}key={section.name}>
-        <h3>{section.name}</h3>
-        <Table striped hover>
+        <div style={header_style}>
+          <h4>{section.name}</h4>
+          <Button onClick={() => {
+              axios.get('/api/flag_section', {params: {id: section.id}})
+                .catch(error => console.log(error));
+            }}
+          >
+            Flag section
+          </Button>
+        </div>
+        <Table striped hover style={{marginTop: 10}}>
           <thead>
             <tr>
               <th>Shortcut</th>
@@ -161,10 +188,9 @@ function Sheet(props) {
                 <td>{item.name}</td>
                 <td>
                   <Button
-                    variant="primary"
                     onClick={() => {
-                    axios.get('/api/add_sr_item', {params: {id: item.id}})
-                      .catch(error => console.log(error));
+                      axios.get('/api/add_sr_item', {params: {id: item.id}})
+                        .catch(error => console.log(error));
                     }}
                   >
                     Flag

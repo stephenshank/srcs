@@ -75,10 +75,12 @@ def sheet(request):
     sections = SheetSection.objects.filter(cheatsheet=sheet)
     response_data = {
         "name": sheet.name,
+        "id": sheet.id,
         "description": sheet.description,
         "sections": [
             {   
                 "name": section.name,
+                "id": section.id,
                 "items": [
                     model_to_dict(item)
                     for item
@@ -114,3 +116,25 @@ def sr_item(request):
     response_data['section'] = model_to_dict(section)
     response_data['sheet'] = model_to_dict(section.cheatsheet)
     return JsonResponse(response_data, safe=False)
+
+
+def flag_section(request):
+    section_id = request.GET.get('id', None)
+    section = SheetSection.objects.filter(id=section_id)[0]
+    items = SectionItem.objects.filter(section=section)
+    for item in items:
+        sr_item = SpacedRepetitionItem.objects.create(item=item)
+        sr_item.save()
+    return JsonResponse({'status': 'okay'})
+
+
+def flag_cheatsheet(request):
+    sheet_id = request.GET.get('id', None)
+    sheet = CheatSheet.objects.filter(id=sheet_id)[0]
+    sections = SheetSection.objects.filter(cheatsheet=sheet)
+    for section in sections:
+        items = SectionItem.objects.filter(section=section)
+        for item in items:
+            sr_item = SpacedRepetitionItem.objects.create(item=item)
+            sr_item.save()
+    return JsonResponse({'status': 'okay'})
