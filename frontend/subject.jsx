@@ -153,7 +153,11 @@ function Sheet(props) {
           <tbody>
             {section.items.map((item, i) => {
               return (<tr key={i}>
-                <td>{item.shortcut}</td>
+                <td>
+                  <SyntaxHighlighter>
+                    {item.shortcut}
+                  </SyntaxHighlighter>
+                </td>
                 <td>{item.name}</td>
                 <td>
                   <Button
