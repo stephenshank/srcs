@@ -109,9 +109,10 @@ def sr_item(request):
         SpacedRepetitionItem.objects.filter(id=sr_id).delete()
     count = SpacedRepetitionItem.objects.count()
     index = randint(0, count-1)
-    section_item_id = SpacedRepetitionItem.objects.all()[index].id
-    section_item = SectionItem.objects.filter(id=section_item_id)[0]
+    sr_item = SpacedRepetitionItem.objects.all()[index]
+    section_item = sr_item.item
     response_data = model_to_dict(section_item)
+    response_data['sr_id'] = sr_item.id
     section = section_item.section
     response_data['section'] = model_to_dict(section)
     response_data['sheet'] = model_to_dict(section.cheatsheet)

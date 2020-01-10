@@ -44,7 +44,7 @@ function Home() {
                 variant="danger"
                 onClick={() => {
                   setAssessed(false);
-                  fetchAnItem('remove', item.id);
+                  fetchAnItem('remove', item.sr_id);
                 }}
               >
                   Remove and continue
