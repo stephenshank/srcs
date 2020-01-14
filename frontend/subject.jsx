@@ -158,7 +158,7 @@ function Sheet(props) {
       </Col>
     </Row>
     <Row>
-      {sheet.sections.map(section => (<Col md={6}key={section.name}>
+      {sheet.sections.map(section => (<Col md={6} key={section.name}>
         <div style={header_style}>
           <h4>{section.name}</h4>
           <Button onClick={() => {

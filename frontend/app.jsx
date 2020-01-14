@@ -39,7 +39,7 @@ function Link(props) {
   );
 }
 
-function Main(props) {
+function App(props) {
   const [subjects, setSubjects] = useState([]);
   useEffect(() => {
     if(subjects.length > 0) { return; }
@@ -55,24 +55,22 @@ function Main(props) {
   return (
     <BrowserRouter>
       <div>
-        <title>Spaced Repetition Cheat Sheet</title>
         <nav className="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
           <a
-            className="navbar-brand col-sm-3 col-md-2 mr-0"
+            className="navbar-brand mr-0"
             href="https://getbootstrap.com/docs/4.0/examples/dashboard/#"
           >
             Spaced Repetition Cheat Sheet
           </a>
           <input
-            className="form-control form-control-dark w-100"
+            className="form-control form-control-dark"
             type="text"
             placeholder="Search"
             aria-label="Search"
           />
         </nav>
-        <div className="container-fluid">
-          <div className="row">
-            <nav className="col-md-2 d-none d-md-block bg-light sidebar">
+        <div>
+            <nav className="d-none d-md-block bg-light sidebar">
               <div className="sidebar-sticky">
                 <ul className="nav flex-column">
                   <Link to="/" label="Home" icon="faHome" />
@@ -97,7 +95,7 @@ function Main(props) {
             </nav>
             <main
               role="main"
-              className="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4"
+              className="main"
             >
               <Switch>
                 <Route path="/ast">
@@ -113,12 +111,11 @@ function Main(props) {
             </main>
           </div>
         </div>
-      </div>
     </BrowserRouter>
   );
 }
 
 ReactDOM.render(
-  <Main />,
+  <App />,
   document.body.appendChild(document.createElement("div"))
 );
