@@ -142,7 +142,7 @@ function Sheet(props) {
   return (<Container>
     <Row>
       <Col md={12} style={header_style}>
-        <h2>{sheet.name}</h2>
+        <h3>{sheet.name}</h3>
         <div>
           <Button
             style={{marginRight: 20}}
@@ -160,7 +160,7 @@ function Sheet(props) {
     <Row>
       {sheet.sections.map(section => (<Col md={6} key={section.name}>
         <div style={header_style}>
-          <h4>{section.name}</h4>
+          <h5>{section.name}</h5>
           <Button onClick={() => {
               axios.get('/api/flag_section', {params: {id: section.id}})
                 .catch(error => console.log(error));
@@ -169,7 +169,7 @@ function Sheet(props) {
             Flag section
           </Button>
         </div>
-        <Table striped hover style={{marginTop: 10}}>
+        <Table striped hover size="sm" style={{marginTop: 10}}>
           <thead>
             <tr>
               <th>Shortcut</th>
