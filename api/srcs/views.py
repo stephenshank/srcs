@@ -103,7 +103,6 @@ def add_sr_item(request):
 
 def sr_item(request):
     action = request.GET.get('action', None)
-    print('ACTION', action)
     if action == 'remove':
         sr_id = request.GET.get('id', None)
         SpacedRepetitionItem.objects.filter(id=sr_id).delete()
