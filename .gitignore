@@ -4,3 +4,4 @@ node_modules
 __pycache__
 tags*
 api/uploads
+config.json
