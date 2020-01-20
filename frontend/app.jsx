@@ -58,7 +58,7 @@ function App(props) {
         <nav className="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
           <a
             className="navbar-brand mr-0"
-            href="https://getbootstrap.com/docs/4.0/examples/dashboard/#"
+            href="#"
           >
             Spaced Repetition Cheat Sheet
           </a>
