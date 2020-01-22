@@ -29,7 +29,7 @@ def serializer(objects):
 
 
 def test(request):
-    json_object = {'status': 'okay'}
+    json_object = {'status': 'srcs READY'}
     return JsonResponse(json_object)
 
 
