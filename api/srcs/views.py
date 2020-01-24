@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 from random import randint
 
 from django.http import JsonResponse
@@ -103,12 +104,14 @@ def add_sr_item(request):
 
 def sr_item(request):
     action = request.GET.get('action', None)
+    sr_id = request.GET.get('id', None)
     if action == 'remove':
-        sr_id = request.GET.get('id', None)
         SpacedRepetitionItem.objects.filter(id=sr_id).delete()
     count = SpacedRepetitionItem.objects.count()
     index = randint(0, count-1)
     sr_item = SpacedRepetitionItem.objects.all()[index]
+    sr_item.last_visited = datetime.now()
+    sr_item.save()
     section_item = sr_item.item
     response_data = model_to_dict(section_item)
     response_data['sr_id'] = sr_item.id

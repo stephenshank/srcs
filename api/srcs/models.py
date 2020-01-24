@@ -127,6 +127,8 @@ class SectionItem(models.Model):
 class SpacedRepetitionItem(models.Model):
     datetime = models.DateTimeField(auto_now_add=True)
     item = models.ForeignKey('SectionItem', on_delete=models.DO_NOTHING)
+    last_visited = models.DateTimeField(null=True)
+    number_of_visits = models.IntegerField(null=True)
 
     def __str__(self):
         return self.item.name
