@@ -91,7 +91,7 @@ function Scripts(props) {
 function AllSheets(props) {
   const match = useRouteMatch();
   return (<div>
-    <Table>
+    <Table striped>
       <thead>
         <tr>
           <th>Sheet</th>
