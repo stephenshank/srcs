@@ -25,8 +25,15 @@ def clean_object(instance):
     }
 
 
+def order(obj):
+    return obj['order']
+
+
 def serializer(objects):
-    return [clean_object(model_to_dict(obj)) for obj in objects]
+    return sorted(
+        [clean_object(model_to_dict(obj)) for obj in objects],
+        key=order
+    )
 
 
 def test(request):
@@ -78,18 +85,19 @@ def sheet(request):
         "name": sheet.name,
         "id": sheet.id,
         "description": sheet.description,
-        "sections": [
+        "sections": sorted([
             {   
                 "name": section.name,
                 "id": section.id,
-                "items": [
+                "order": section.order,
+                "items": sorted([
                     model_to_dict(item)
                     for item
                     in SectionItem.objects.filter(section=section)
-                ]
+                ], key=order)
             }
             for section in sections
-        ]
+        ], key=order)
     }
     return JsonResponse(response_data, safe=False)
 

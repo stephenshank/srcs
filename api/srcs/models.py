@@ -11,6 +11,7 @@ class Subject(models.Model):
     name = models.CharField(null=True, max_length=255, blank=True)
     token = models.CharField(null=True, max_length=255, blank=True)
     icon = models.CharField(null=True, max_length=255, blank=True)
+    order = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
@@ -102,6 +103,7 @@ class CheatSheet(models.Model):
     token = models.CharField(null=True, max_length=255, blank=True)
     description = models.TextField(null=True)
     subject = models.ForeignKey('Subject', on_delete=models.CASCADE)
+    order = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
@@ -110,6 +112,7 @@ class CheatSheet(models.Model):
 class SheetSection(models.Model):
     name = models.CharField(null=True, max_length=255, blank=True)
     cheatsheet = models.ForeignKey('CheatSheet', on_delete=models.CASCADE)
+    order = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
@@ -119,6 +122,7 @@ class SectionItem(models.Model):
     name = models.CharField(null=True, max_length=255, blank=True)
     shortcut = models.CharField(null=True, max_length=255, blank=True)
     section = models.ForeignKey('SheetSection', on_delete=models.CASCADE)
+    order = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
