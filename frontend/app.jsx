@@ -32,7 +32,12 @@ function Link(props) {
         isActive={isActive}
         exact={props.to == "/"}
       >
-        <FontAwesomeIcon key={1} icon={Icons[props.icon]} className="srcs-fa" />
+        <FontAwesomeIcon
+          key={1}
+          icon={Icons[props.icon]}
+          className="srcs-fa"
+          fixedWidth
+        />
         {props.label}
       </NavLink>
     </li>
@@ -70,47 +75,47 @@ function App(props) {
           />
         </nav>
         <div>
-            <nav className="d-none d-md-block bg-light sidebar">
-              <div className="sidebar-sticky">
-                <ul className="nav flex-column">
-                  <Link to="/" label="Home" icon="faHome" />
-                  <Link to="/ast" label="AST" icon="faProjectDiagram" />
-                </ul>
-                <h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                  <span>Subjects</span>
-                </h6>
-                <ul className="nav flex-column mb-2">
-                  {subjects.map(subject => {
-                    return (
-                      <Link
-                        key={subject.token}
-                        to={`/${subject.token}/sheets`}
-                        label={subject.name}
-                        icon={subject.icon}
-                      />
-                    );
-                  })}
-                </ul>
-              </div>
-            </nav>
-            <main
-              role="main"
-              className="main"
-            >
-              <Switch>
-                <Route path="/ast">
-                  <AST />
-                </Route>
-                <Route path={"/:subject"}>
-                  <Subject />
-                </Route>
-                <Route path="/">
-                  <Home />
-                </Route>
-              </Switch>
-            </main>
-          </div>
+          <nav className="d-none d-md-block bg-light sidebar">
+            <div className="sidebar-sticky">
+              <ul className="nav flex-column">
+                <Link to="/" label="Home" icon="faHome" />
+                <Link to="/ast" label="AST" icon="faProjectDiagram" />
+              </ul>
+              <h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                <span>Subjects</span>
+              </h6>
+              <ul className="nav flex-column mb-2">
+                {subjects.map(subject => {
+                  return (
+                    <Link
+                      key={subject.token}
+                      to={`/${subject.token}/sheets`}
+                      label={subject.name}
+                      icon={subject.icon}
+                    />
+                  );
+                })}
+              </ul>
+            </div>
+          </nav>
+          <main
+            role="main"
+            className="main"
+          >
+            <Switch>
+              <Route path="/ast">
+                <AST />
+              </Route>
+              <Route path={"/:subject"}>
+                <Subject />
+              </Route>
+              <Route path="/">
+                <Home />
+              </Route>
+            </Switch>
+          </main>
         </div>
+      </div>
     </BrowserRouter>
   );
 }
