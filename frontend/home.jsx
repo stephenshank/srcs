@@ -47,7 +47,7 @@ function Home() {
                   fetchAnItem('remove', item.sr_id);
                 }}
               >
-                  Remove and continue
+                Remove and continue
               </Button>
             </>): null}
           </Card.Body>

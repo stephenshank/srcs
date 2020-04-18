@@ -11,7 +11,7 @@ import * as brandIcons from "@fortawesome/free-brands-svg-icons";
 import axios from "axios";
 
 import Home from "./home.jsx";
-import AST from "./ast.jsx";
+import CodeAnalysis from "./code_analysis.jsx";
 import Subject from "./subject.jsx";
 
 import "./styles/main.scss";
@@ -79,7 +79,11 @@ function App(props) {
             <div className="sidebar-sticky">
               <ul className="nav flex-column">
                 <Link to="/" label="Home" icon="faHome" />
-                <Link to="/ast" label="AST" icon="faProjectDiagram" />
+                <Link
+                  to="/code-analysis/ast"
+                  label="Code analysis"
+                  icon="faProjectDiagram"
+                />
               </ul>
               <h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                 <span>Subjects</span>
@@ -103,8 +107,8 @@ function App(props) {
             className="main"
           >
             <Switch>
-              <Route path="/ast">
-                <AST />
+              <Route path="/code-analysis/:tool">
+                <CodeAnalysis />
               </Route>
               <Route path={"/:subject"}>
                 <Subject />
