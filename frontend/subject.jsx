@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Component } from "react";
-import { Route, NavLink, Link, Switch, useRouteMatch, useParams } from "react-router-dom";
+import { Route, Link, Switch, useRouteMatch, useParams } from "react-router-dom";
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import Container from "react-bootstrap/Container";
@@ -10,6 +10,8 @@ import { default as RBButton } from "react-bootstrap/Button";
 import Nav from "react-bootstrap/Nav";
 import Modal from "react-bootstrap/Modal";
 import axios from "axios";
+
+import { NavLink } from "./utils.jsx";
 
 
 function Button(props) {
@@ -236,15 +238,11 @@ function Sheets(){
 
 function Subject() {
   const match = useRouteMatch(),
-  { subject } = match.params;
+    { subject } = match.params;
   return (<div>
     <Nav variant="tabs">
-      <Nav.Item>
-        <Nav.Link to={`${match.url}/sheets`} as={NavLink}>Sheets</Nav.Link>
-      </Nav.Item>
-      <Nav.Item>
-        <Nav.Link to={`${match.url}/scripts`} as={NavLink}>Scripts</Nav.Link>
-      </Nav.Item>
+      <NavLink to={`${match.url}/sheets`} label='Sheets'/>
+      <NavLink to={`${match.url}/scripts`} label='Scripts' />
     </Nav>
     <div style={{marginTop: 10}}>
       <Switch>
