@@ -9,7 +9,6 @@ import { NavLink } from "./utils.jsx";
 function CodeAnalysis(props) {
   const match = useRouteMatch(),
     { tool } = match.params;
-  console.log(match);
   return (<div>
     <Nav variant="tabs" defaultActiveKey="/home">
       <NavLink to={`/code-analysis/ast`} label='AST' />

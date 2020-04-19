@@ -144,7 +144,6 @@ function AST() {
     <div style={{ height: 550, overflowY: "scroll" }}>
       <ReactJson
         src={ast}
-        collapsed={1}
         displayDataTypes={false}
         collapsed={expand}
       />

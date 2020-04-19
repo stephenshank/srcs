@@ -1,6 +1,8 @@
 import json
 from datetime import datetime
 from random import randint
+from io import BytesIO
+from tokenize import tokenize
 
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
@@ -149,3 +151,16 @@ def flag_cheatsheet(request):
             sr_item = SpacedRepetitionItem.objects.create(item=item)
             sr_item.save()
     return JsonResponse({'status': 'okay'})
+
+
+@csrf_exempt
+def tokenize_python(request):
+    code = json.loads(request.body)['code']
+    print(code)
+    as_file = BytesIO(code.encode('utf-8'))
+    tokens = tokenize(as_file.readline)
+    formatted = [
+        { 'type': t.type, 'value': t.string }
+        for t in tokens
+    ]
+    return JsonResponse(formatted[1: -2], safe=False)

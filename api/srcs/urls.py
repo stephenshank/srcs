@@ -15,4 +15,5 @@ urlpatterns = [
     path('add_sr_item', views.add_sr_item, name='add_sr_item'),
     path('flag_section', views.flag_section, name='flag_section'),
     path('flag_cheatsheet', views.flag_cheatsheet, name='flag_cheatsheet'),
+    path('tokenize_python', views.tokenize_python, name='tokenize_python'),
 ]
