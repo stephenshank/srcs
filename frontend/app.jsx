@@ -67,12 +67,6 @@ function App(props) {
           >
             Spaced Repetition Cheat Sheet
           </a>
-          <input
-            className="form-control form-control-dark"
-            type="text"
-            placeholder="Search"
-            aria-label="Search"
-          />
         </nav>
         <div>
           <nav className="d-none d-md-block bg-light sidebar">

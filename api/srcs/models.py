@@ -127,6 +127,12 @@ class SectionItem(models.Model):
     def __str__(self):
         return self.name
 
+    def sheet(self):
+        return str(self.section.cheatsheet)
+
+    def subject(self):
+        return str(self.section.cheatsheet.subject)
+
 
 class SpacedRepetitionItem(models.Model):
     datetime = models.DateTimeField(auto_now_add=True)
