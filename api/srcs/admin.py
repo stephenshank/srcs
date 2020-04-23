@@ -15,8 +15,14 @@ class SpacedRepetitionItemAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'last_visited')
 
 
+class SheetSectionAdmin(admin.ModelAdmin):
+    search_fields = ('name', )
+
+
 class SectionItemAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'sheet', 'subject')
+    search_fields = ('name', )
+    autocomplete_fields = ('section', )
 
 
 admin.site.register(Subject)
@@ -24,6 +30,6 @@ admin.site.register(Package)
 admin.site.register(Module)
 admin.site.register(Script)
 admin.site.register(CheatSheet)
-admin.site.register(SheetSection)
+admin.site.register(SheetSection, SheetSectionAdmin)
 admin.site.register(SectionItem, SectionItemAdmin)
 admin.site.register(SpacedRepetitionItem, SpacedRepetitionItemAdmin)
