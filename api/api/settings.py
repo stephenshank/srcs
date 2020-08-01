@@ -14,9 +14,6 @@ import os
 import json
 
 
-with open('config.json') as json_file:
-    CONFIG = json.load(json_file)
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -79,10 +76,12 @@ WSGI_APPLICATION = 'api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+DEFAULT_DB_PATH = os.path.join(BASE_DIR, 'db.sqlite3')
+DB_PATH = os.environ.get('DB_PATH') or DEFAULT_DB_PATH
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': CONFIG['sqlite_path'],
+        'NAME': DB_PATH,
     }
 }
 
@@ -124,3 +123,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
