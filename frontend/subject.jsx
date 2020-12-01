@@ -141,7 +141,7 @@ function Sheet(props) {
     alignItems: "center",
     justifyContent: "space-between"
   };
-  return (<Container>
+  return (<Container fluid>
     <Row>
       <Col md={12} style={header_style}>
         <h3>{sheet.name}</h3>
