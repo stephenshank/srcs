@@ -107,8 +107,9 @@ def sheet(request):
 def add_sr_item(request):
     section_item_id = request.GET.get('id', None)
     section_item = SectionItem.objects.filter(id=section_item_id)[0]
-    sr_item = SpacedRepetitionItem.objects.create(item=section_item)
-    sr_item.save()
+    sr_item = SpacedRepetitionItem.objects.create.get_or_create(
+        item=section_item
+    )
     return JsonResponse({'status': 'okay'})
 
 
@@ -136,8 +137,7 @@ def flag_section(request):
     section = SheetSection.objects.filter(id=section_id)[0]
     items = SectionItem.objects.filter(section=section)
     for item in items:
-        sr_item = SpacedRepetitionItem.objects.create(item=item)
-        sr_item.save()
+        sr_item = SpacedRepetitionItem.objects.get_or_create(item=item)
     return JsonResponse({'status': 'okay'})
 
 
@@ -148,8 +148,7 @@ def flag_cheatsheet(request):
     for section in sections:
         items = SectionItem.objects.filter(section=section)
         for item in items:
-            sr_item = SpacedRepetitionItem.objects.create(item=item)
-            sr_item.save()
+            sr_item = SpacedRepetitionItem.objects.get_or_create(item=item)
     return JsonResponse({'status': 'okay'})
 
 
